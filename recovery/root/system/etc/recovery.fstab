@@ -1,15 +1,17 @@
-# Logical Partitions
-/system             erofs     system                                flags=display=system;logical
-/system             f2fs      system                                flags=display=system;logical
-/system             ext4      system                                flags=display=system;logical
-/vendor             erofs     vendor                                flags=display=vendor;logical
-/product            erofs     product                               flags=display=product;logical
-/odm                erofs     odm                                   flags=display=odm;logical
-/system_ext         erofs     system_ext                            flags=display=system_ext;logical
-/vendor_dlkm        erofs     vendor_dlkm                           flags=display=vendor_dlkm;logical
-/system_dlkm        erofs     system_dlkm                           flags=display=system_dlkm;logical
-/system_dlkm        f2fs      system_dlkm                           flags=display=system_dlkm;logical
-/system_dlkm        ext4      system_dlkm                           flags=display=system_dlkm;logical
+# Android fstab file.
+#<src>                  <mnt_point>         <type>    <mnt_flags and options>                               <fs_mgr_flags>
+# The filesystem that contains the filesystem checker binary (typically /system) cannot
+# specify MF_CHECK, and must come before any filesystems that do specify MF_CHECK
+system	/system	erofs	ro	wait,logical,first_stage_mount,avb=vbmeta_system,avb_keys=/avb/q-gsi.avbpubkey:/avb/r-gsi.avbpubkey:/avb/s-gsi.avbpubkey:/avb/t-gsi.avbpubkey
+system	/system	f2fs	ro	wait,logical,first_stage_mount,avb=vbmeta_system,avb_keys=/avb/q-gsi.avbpubkey:/avb/r-gsi.avbpubkey:/avb/s-gsi.avbpubkey:/avb/t-gsi.avbpubkey
+system	/system	ext4	ro	wait,logical,first_stage_mount,avb=vbmeta_system,avb_keys=/avb/q-gsi.avbpubkey:/avb/r-gsi.avbpubkey:/avb/s-gsi.avbpubkey:/avb/t-gsi.avbpubkey
+vendor	/vendor	erofs	ro	wait,logical,first_stage_mount,avb=vbmeta_system,avb_keys=/avb/q-gsi.avbpubkey:/avb/r-gsi.avbpubkey:/avb/s-gsi.avbpubkey:/avb/t-gsi.avbpubkey
+system_dlkm	/system_dlkm	erofs	ro	wait,avb,logical,first_stage_mount
+system_dlkm	/system_dlkm	f2fs	ro	wait,avb,logical,first_stage_mount
+system_dlkm	/system_dlkm	ext4	ro	wait,avb,logical,first_stage_mount
+vendor_dlkm	/vendor_dlkm	erofs	ro	wait,avb,logical,first_stage_mount
+product	/product	erofs	ro	wait,avb,logical,first_stage_mount
+odm	/odm	erofs	ro	wait,avb,logical,first_stage_mount
 
 # Data Partitions
 /dev/block/by-name/userdata	/data	f2fs	noatime,nosuid,nodev,discard,usrquota,grpquota,fsync_mode=nobarrier,reserve_root=32768,resgid=5678,whint_mode=fs-based,inlinecrypt	latemount,wait,check,quota,reservedsize=128M,checkpoint=fs,,fscompress,fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized+wrappedkey_v0,metadata_encryption=aes-256-xts:wrappedkey_v0,keydirectory=/metadata/vold/metadata_encryption
