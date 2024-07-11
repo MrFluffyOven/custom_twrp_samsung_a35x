@@ -19,4 +19,4 @@ odm	/odm	erofs	ro	wait,avb,logical,first_stage_mount
 /dev/block/by-name/metadata	/metadata	ext4	noatime,nosuid,nodev,noauto_da_alloc,discard,journal_checksum,data=ordered,errors=panic,sync	wait,formattable,first_stage_mount,check
 
 # Boot
-/misc               emmc      /dev/block/by-name/misc               flags=display=misc,first_stage_mount
+/dev/block/by-name/misc	/misc	emmc	defaults	defaults,first_stage_mount
